@@ -11,7 +11,7 @@ class App extends Component {
       tweet: null
     }
 
-    this.socket = window["io"]('http://localhost:8080', {path: '/socket.io'});
+    this.socket = window["io"]();
   }
 
   componentWillMount() {
