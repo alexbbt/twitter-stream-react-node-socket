@@ -16,29 +16,29 @@ class App extends Component {
 
   componentWillMount() {
     this.socket.on('tweet', (tweet) => {
-      if (this.state.tweets === 0) {
-        window["tweet"] = tweet;
-      }
-        this.state.tweets++
-        this.setState({
-          tweets: this.state.tweets,
-          tweet: tweet
-        })
+      this.state.tweets++
+      this.setState({
+        tweets: this.state.tweets,
+        tweet: tweet
+      })
     });
   }
 
   render() {
+    if (this.state.tweet) {
+      var tweetText = this.state.tweet.text.replace(/trump/gi, (match) => {
+        return "<span class=\"trump\">" + match + "</span>"
+      });
+    }
     return (
       <div className="container">
         <div className="row">
           <div className="col-xs-12">
-          <h2>Latest Tweet with the word "Trump"</h2>
+          <h2>Latest Tweet with the word "<span className="trump">Trump</span>"</h2>
           <div className="tweetBox">
             {this.state.tweet ?
               <blockquote className="twitter-tweet">
-                <p className="tweetText">
-                  {this.state.tweet.text}
-                </p>
+                <p className="tweetText" dangerouslySetInnerHTML={{__html: tweetText}}></p>
                 &mdash; {this.state.tweet.user.name} (@{this.state.tweet.user.screen_name})
                 <a className="pull-right" href={"https://twitter.com/" + this.state.tweet.user.screen_name + "/status/" + this.state.tweet.id + ""}>
                   {new Date(parseInt(this.state.tweet.timestamp_ms)).toLocaleString()}

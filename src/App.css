@@ -26,3 +26,7 @@ blockquote.twitter-tweet a[href^="https://twitter.com"] {
 .tweetText {
   height: 100px;
 }
+
+.trump {
+  color: red;
+}
