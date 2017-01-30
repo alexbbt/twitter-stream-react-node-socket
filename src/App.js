@@ -8,25 +8,28 @@ class App extends Component {
     this.state = {
       startTime: Date.now(),
       tweets: 0,
-      tweet: null
+      tweet: null,
+      word: "Word"
     }
 
     this.socket = window["io"]();
   }
 
   componentWillMount() {
-    this.socket.on('tweet', (tweet) => {
+    this.socket.on('tweet', (data) => {
       this.state.tweets++
       this.setState({
         tweets: this.state.tweets,
-        tweet: tweet
+        tweet: data.tweet,
+        word: data.word
       })
     });
   }
 
   render() {
     if (this.state.tweet) {
-      var tweetText = this.state.tweet.text.replace(/trump/gi, (match) => {
+      document.getElementsByTagName("title")[0].text = "Twitter live feed of Tweets with the word \"" + this.state.word  + "\"";
+      var tweetText = this.state.tweet.text.replace(new RegExp(this.state.word,"gi"), (match) => {
         return "<span class=\"trump\">" + match + "</span>"
       });
     }
@@ -34,14 +37,14 @@ class App extends Component {
       <div className="container">
         <div className="row">
           <div className="col-xs-12">
-          <h2>Latest Tweet with the word "<span className="trump">Trump</span>"</h2>
+          <h2>Latest Tweet with the word "<span className="trump">{this.state.word}</span>"</h2>
           <div className="tweetBox">
             {this.state.tweet ?
               <blockquote className="twitter-tweet">
                 <p className="tweetText" dangerouslySetInnerHTML={{__html: tweetText}}></p>
                 &mdash; {this.state.tweet.user.name} (@{this.state.tweet.user.screen_name})
                 <a className="pull-right" href={"https://twitter.com/" + this.state.tweet.user.screen_name + "/status/" + this.state.tweet.id + ""}>
-                  {new Date(parseInt(this.state.tweet.timestamp_ms)).toLocaleString()}
+                  {new Date(parseInt(this.state.tweet.timestamp_ms, 10)).toLocaleString()}
                 </a>
               </blockquote>
             : <p>"No Tweet Recieved"</p>}

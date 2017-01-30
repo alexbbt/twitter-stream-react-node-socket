@@ -13,12 +13,9 @@ module.exports = function(app, io, twitter) {
   // ===========================================================================
   // IO Routes =================================================================
   // ===========================================================================
-    io.sockets.on('connection', function (socket) {
-      twitter.listen(function(tweet) {
-        io.sockets.emit('tweet', tweet);
-      })
-    });
-
+  twitter.listen(function(data) {
+    io.sockets.emit('tweet', data);
+  })
 
   // ===========================================================================
   // The 404 Route (ALWAYS Keep this as the last route) ========================
