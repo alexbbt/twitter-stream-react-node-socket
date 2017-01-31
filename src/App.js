@@ -47,9 +47,9 @@ class App extends Component {
                   {new Date(parseInt(this.state.tweet.timestamp_ms, 10)).toLocaleString()}
                 </a>
               </blockquote>
-            : <p>"No Tweet Recieved"</p>}
+            : <p>"No Tweet Received"</p>}
           </div>
-          <h2>Tweets Recieved (in last {this.toHHMMSS(Date.now() - this.state.startTime)}):</h2>
+          <h2>Tweets Received (in last {this.toHHMMSS(Date.now() - this.state.startTime)}):</h2>
           <p>{this.state.tweets}</p>
           <h3>Average Tweets per second:</h3>
           <p>{Math.round(this.state.tweets / ((Date.now() - this.state.startTime) / 1000))}</p>
